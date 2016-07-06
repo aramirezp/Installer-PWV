@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\System32\inetsrv\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,14 +50,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="configureIIS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="configureIIS.Designer.cs">
+      <DependentUpon>configureIIS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="detectRequisities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="detectRequisities.Designer.cs">
+      <DependentUpon>detectRequisities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrameWork.cs" />
+    <Compile Include="OS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="configureIIS.resx">
+      <DependentUpon>configureIIS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="detectRequisities.resx">
+      <DependentUpon>detectRequisities.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +110,7 @@
   <ItemGroup>
     <None Include="Resources\logo.png" />
     <None Include="Resources\innovmetric.bmp" />
+    <None Include="Resources\favicon.ico" />
     <Content Include="Resources\pwv_red.png" />
     <Content Include="Resources\pwv_grey.png" />
   </ItemGroup>
