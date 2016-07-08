@@ -47,22 +47,7 @@ namespace Installer_PWV
             if (verIIS.Major >= 0)
                 picIIS.Image = Installer_PWV.Properties.Resources.pwv_red;
 
-            //Detect Site IIS to install Frontend
-            ServerManager mgr = new ServerManager();
-            foreach (Site s in mgr.Sites)
-            {
-                //lblPathIIS.Text += "Site " + s.Name + "\n";
-
-                foreach (Microsoft.Web.Administration.Application app in s.Applications)
-                {
-                    lblPathIIS.Text += "Application: "+ app.Path + "\n";
-
-                    foreach (VirtualDirectory virtDir in app.VirtualDirectories)
-                    {
-                        lblPathIIS.Text +=  "Virtual Dir: "+ virtDir.PhysicalPath + "\n";
-                    }
-                }
-            }
+           
         }
 
 

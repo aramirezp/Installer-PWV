@@ -16,7 +16,7 @@ namespace Installer_PWV
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new detectRequisities());
+            Application.Run(new configureIIS());
         }
     }
 }
