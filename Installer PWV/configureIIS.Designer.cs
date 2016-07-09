@@ -39,6 +39,10 @@
             this.imgPath = new System.Windows.Forms.PictureBox();
             this.imgSite = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSite)).BeginInit();
@@ -93,7 +97,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(90, 327);
+            this.label2.Location = new System.Drawing.Point(90, 382);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(274, 21);
             this.label2.TabIndex = 25;
@@ -104,7 +108,7 @@
             this.lblWindows.BackColor = System.Drawing.Color.White;
             this.lblWindows.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWindows.ForeColor = System.Drawing.Color.Black;
-            this.lblWindows.Location = new System.Drawing.Point(91, 357);
+            this.lblWindows.Location = new System.Drawing.Point(91, 412);
             this.lblWindows.Name = "lblWindows";
             this.lblWindows.Size = new System.Drawing.Size(289, 21);
             this.lblWindows.TabIndex = 26;
@@ -114,7 +118,7 @@
             this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(386, 357);
+            this.button1.Location = new System.Drawing.Point(386, 412);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(26, 21);
             this.button1.TabIndex = 28;
@@ -125,7 +129,7 @@
             // imgPath
             // 
             this.imgPath.Image = global::Installer_PWV.Properties.Resources.pwv_grey;
-            this.imgPath.Location = new System.Drawing.Point(56, 357);
+            this.imgPath.Location = new System.Drawing.Point(56, 412);
             this.imgPath.Name = "imgPath";
             this.imgPath.Size = new System.Drawing.Size(29, 21);
             this.imgPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -152,12 +156,46 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // txtPort
+            // 
+            this.txtPort.Enabled = false;
+            this.txtPort.Location = new System.Drawing.Point(94, 325);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(90, 20);
+            this.txtPort.TabIndex = 35;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(90, 301);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(127, 21);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Port site selected";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(12, 501);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(433, 15);
+            this.progressBar1.TabIndex = 37;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            // 
             // configureIIS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(54)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(457, 663);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtPort);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.imgSite);
             this.Controls.Add(this.imgPath);
@@ -193,5 +231,9 @@
         private System.Windows.Forms.PictureBox imgPath;
         private System.Windows.Forms.PictureBox imgSite;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox txtPort;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

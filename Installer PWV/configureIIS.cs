@@ -25,7 +25,7 @@ namespace Installer_PWV
             ServerManager mgr = new ServerManager();
             foreach (Site s in mgr.Sites)
             {
-                lstSites.Items.Add("Site " + s.Name + s.Bindings[0].Attributes["bindingInformation"].Value);// + "\n Path:"+ s.Applications["/"].VirtualDirectories["/"].PhysicalPath);
+                lstSites.Items.Add("Site " + s.Name);// + s.Bindings[0].Attributes["bindingInformation"].Value);// + "\n Path:"+ s.Applications["/"].VirtualDirectories["/"].PhysicalPath);
 
                 /*foreach (Microsoft.Web.Administration.Application app in s.Applications)
                 {
@@ -71,25 +71,48 @@ namespace Installer_PWV
             imgSite.Image = Installer_PWV.Properties.Resources.pwv_red;
             siteSelected = ((ListBox)sender).SelectedItem.ToString();
             siteSelected = siteSelected.Split('*')[0].Substring(4).Trim();
+
+            ServerManager mgr = new ServerManager();
+            Site s = mgr.Sites[siteSelected];
+            txtPort.Text = s.Bindings[0].EndPoint.Port.ToString();
+            lblWindows.Text = Environment.ExpandEnvironmentVariables(s.Applications["/"].VirtualDirectories["/"].PhysicalPath.ToString());
         }
 
+        private void MyMethod() //called on the UI thread
+        {
+            //iCount = checkedlistbox.selecteditems.count;
+            progressBar1.Value = 1;
+            progressBar1.Minimum = 1;
+            progressBar1.Maximum = System.IO.Directory.GetFiles(@"d:\Develop\pwv\", "*", System.IO.SearchOption.AllDirectories).Length; ;
+            progressBar1.Step = 1;
 
+            var bgw = new BackgroundWorker();
+            bgw.ProgressChanged += backgroundWorker1_ProgressChanged;
+            bgw.DoWork += backgroundWorker1_DoWork;
+            bgw.WorkerReportsProgress = true;
+            bgw.RunWorkerAsync();
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                /* ServerManager mgr = new ServerManager();
-                 Site s = mgr.Sites[siteSelected];
-                 s.Applications.Add("/test/pwv1", lblWindows.Text);
-                 s.Applications.ena
-                 mgr.CommitChanges();
-                 */
+                 /*ServerManager mgr = new ServerManager();
+                 Site s = mgr.Sites[siteSelected];*/
+                
+                helper_iis.CreateApplication(siteSelected, lblWindows.Text);
+                System.Diagnostics.Process.Start("http://localhost:" + txtPort.Text + "/innovmetric/pwv/");
+                System.Diagnostics.Process.Start("http://localhost:" + txtPort.Text + "/innovmetric/rest/");
+                MyMethod();
+                //s.Applications.Add("/test/pwv1", lblWindows.Text);
 
-                const int NUMBEROFSITES = 1;
+                /*mgr.CommitChanges();*/
+
+
+                /*const int NUMBEROFSITES = 1;
                 const int SITEBASENUMBER = 1000;
-                //const string POOLPREFIX = "POOL_";
-                const string SITENAMEPREFIX = "SITE";
+                const string POOLPREFIX = "POOL_";
+                const string SITENAMEPREFIX = "INNOVMETRIC";
                 const string ROOTDIR = "d:\\content";
                 ServerManager mgr = new ServerManager();
                 SiteCollection sites = mgr.Sites;
@@ -101,8 +124,8 @@ namespace Installer_PWV
                     }
                 }
                 mgr.CommitChanges();
+                */
 
-                
 
             }
             catch (InvalidOperationException ex)
@@ -110,6 +133,32 @@ namespace Installer_PWV
                 MessageBox.Show("Application exist in IIS, Replace application?" + ex.Message.ToString(), "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly);
             }
 
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+
+            const string sourceDir = @"d:\Develop\pwv";
+            const string targetDir = @"c:\Develop\pwv";
+            int i = 0;
+            foreach (var file in System.IO.Directory.GetFiles(sourceDir))
+            {
+                System.IO.File.Copy(file, System.IO.Path.Combine(targetDir, System.IO.Path.GetFileName(file)), true);
+                ((BackgroundWorker)sender).ReportProgress(i);
+            }
+
+            //for (int i = 1; i< 100; ++i)
+            //{
+            //    //do some work...
+            //    System.Threading.Thread.Sleep(1000);
+            //    ((BackgroundWorker)sender).ReportProgress(0);
+            //}
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.PerformStep();
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Installer_PWV
                 serverManager.CommitChanges();
             }
         }
-
         public static void CreateSite(string siteName, string path)
         {
             using (ServerManager serverManager = new ServerManager())
@@ -37,7 +36,6 @@ namespace Installer_PWV
                 }
             }
         }
-
         public static bool CreateInboundFirewall(int port)
         {
             INetFwMgr icfMgr = null;
@@ -78,7 +76,29 @@ namespace Installer_PWV
             }
 
         }
+        public static bool CreateDirectoryPwv(string dirRoot)
+        {
+            try
+            {
 
+                System.IO.Directory.CreateDirectory(dirRoot);
+                //TODO: Crear funcion que copie todo el direcctorio en la ruta seleccionada
+                System.IO.File.Create(dirRoot + @"\index.html").Close();
+                System.IO.TextWriter tw = new System.IO.StreamWriter(dirRoot + @"\index.html");
+                if (dirRoot.Contains("rest"))
+                    tw.WriteLine("<html><body><h1> Success Backend " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " ok!!!</h1></body></html>");
+                else
+                    tw.WriteLine("<html><body><h1> Success FrontEnd " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " ok!!!</h1></body></html>");
+                tw.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+        }
         public static bool CreateSitesInIIS(SiteCollection sites, string sitePrefix, int siteId, string dirRoot, int port)
         {
             string siteName = sitePrefix + siteId;
@@ -98,18 +118,16 @@ namespace Installer_PWV
                 VirtualDirectory vdir = app.VirtualDirectories.CreateElement();
                 vdir.SetAttributeValue("path", "/");
                 vdir.SetAttributeValue("physicalPath", dirRoot + @"\" + siteName);
-                System.IO.Directory.CreateDirectory(dirRoot + @"\" + siteName + @"\pwv");
-                System.IO.File.Create(dirRoot + @"\" + siteName + @"\pwv\index.html").Close();
-                System.IO.TextWriter tw = new System.IO.StreamWriter(dirRoot + @"\" + siteName + @"\pwv\index.html");
-                tw.WriteLine("<html><body><h1> Success ok!!!</h1></body></html>");
-                tw.Close();
 
-                
+
                 app.VirtualDirectories.Add(vdir);
+
                 Binding b = site.Bindings.CreateElement();
                 b.SetAttributeValue("protocol", "http");
                 b.SetAttributeValue("bindingInformation", ":" + port + ":");// + siteName);
+
                 CreateInboundFirewall(port);
+
                 site.Bindings.Add(b);
             }
             catch (Exception ex)
@@ -119,12 +137,16 @@ namespace Installer_PWV
             }
             return true;
         }
-        public static void CreateApplication()
+        public static void CreateApplication(string site, string PhysicalPath)
         {
             ServerManager manager = new ServerManager();
-            Site defaultSite = manager.Sites["WebSite1"];
-            defaultSite.Applications.Add("/app1", @"C:\inetpub\wwwroot\app1");
+            Site defaultSite = manager.Sites[site];
+            CreateDirectoryPwv(PhysicalPath + @"\innovmetric\pwv\");
+            CreateDirectoryPwv(PhysicalPath + @"\innovmetric\rest\");
+            Application app = defaultSite.Applications.Add("/innovmetric", PhysicalPath + @"\innovmetric");
+            //app.VirtualDirectories.Add("/innovmetric"  , @"d:\rootTest\innovmetric");
             manager.CommitChanges();
+            
         }
         public static Site GetSite(ServerManager serverManager, string siteName)
         {
@@ -133,30 +155,31 @@ namespace Installer_PWV
                 return serverManager.Sites[siteName];
             }
         }
-        public static void CreateApplication(string siteName, string applicationName, string path)
+        public static void CreateApplication(string siteName, string applicationName, string path, int port)
         {
             using (ServerManager serverManager = new ServerManager())
             {
                 var site = GetSite(serverManager, siteName);
                 var applications = site.Applications;
+                site.Applications.Add("/app1", @"c:\inetpub\wwwroot\app1");
                 if (applications["/" + applicationName] == null)
                 {
                     applications.Add("/" + applicationName, path);
                     serverManager.CommitChanges();
+                    CreateDirectoryPwv(path);
+                    CreateInboundFirewall(port);
                 }
             }
         }
-
-        //public static void CreateVirtualDirectory(string siteName, string applicationName, string virtualDirectoryName, string path)
-        //{
-        //    using (ServerManager serverManager = new ServerManager())
-        //    {
-        //        var application = GetApplication(serverManager, siteName, applicationName);
-        //        application.VirtualDirectories.Add("/" + virtualDirectoryName, path);
-        //        serverManager.CommitChanges();
-        //    }
-        //}
-
+        public static void CreateVirtualDirectory(string siteName, string applicationName, string virtualDirectoryName, string path)
+        {
+            //using (ServerManager serverManager = new ServerManager())
+            //{
+            //    var application = GetApplication(serverManager, siteName, applicationName);
+            //    application.VirtualDirectories.Add("/" + virtualDirectoryName, path);
+            //    serverManager.CommitChanges();
+            //}
+        }
         public static void SetApplicationApplicationPool(string siteName, string applicationPoolName)
         {
             using (ServerManager serverManager = new ServerManager())
