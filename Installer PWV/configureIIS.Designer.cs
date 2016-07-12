@@ -43,6 +43,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.lblNomFile = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSite)).BeginInit();
@@ -79,8 +81,9 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(254, 52);
             this.button2.TabIndex = 23;
-            this.button2.Text = "Next Step";
+            this.button2.Text = "Install";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // lstSites
             // 
@@ -154,6 +157,7 @@
             this.button3.TabIndex = 32;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // txtPort
@@ -181,11 +185,39 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(433, 15);
             this.progressBar1.TabIndex = 37;
+            this.progressBar1.Visible = false;
             // 
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // lblNomFile
+            // 
+            this.lblNomFile.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.lblNomFile.ForeColor = System.Drawing.Color.White;
+            this.lblNomFile.Location = new System.Drawing.Point(12, 519);
+            this.lblNomFile.Name = "lblNomFile";
+            this.lblNomFile.Size = new System.Drawing.Size(433, 21);
+            this.lblNomFile.TabIndex = 38;
+            this.lblNomFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button4
+            // 
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.ForeColor = System.Drawing.Color.White;
+            this.button4.Location = new System.Drawing.Point(94, 546);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(254, 52);
+            this.button4.TabIndex = 39;
+            this.button4.Text = "Finish";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // configureIIS
             // 
@@ -193,6 +225,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(54)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(457, 663);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.lblNomFile);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtPort);
@@ -206,9 +240,10 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "configureIIS";
-            this.Text = "configureIIS";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Setup PWV";
             this.Load += new System.EventHandler(this.configureIIS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgPath)).EndInit();
@@ -235,5 +270,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label lblNomFile;
+        private System.Windows.Forms.Button button4;
     }
 }

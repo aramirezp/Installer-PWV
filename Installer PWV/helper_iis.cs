@@ -137,16 +137,84 @@ namespace Installer_PWV
             }
             return true;
         }
-        public static void CreateApplication(string site, string PhysicalPath)
+        public static Boolean CreateApplication(string site, string PhysicalPath)
         {
-            ServerManager manager = new ServerManager();
-            Site defaultSite = manager.Sites[site];
-            CreateDirectoryPwv(PhysicalPath + @"\innovmetric\pwv\");
-            CreateDirectoryPwv(PhysicalPath + @"\innovmetric\rest\");
-            Application app = defaultSite.Applications.Add("/innovmetric", PhysicalPath + @"\innovmetric");
-            //app.VirtualDirectories.Add("/innovmetric"  , @"d:\rootTest\innovmetric");
-            manager.CommitChanges();
-            
+            try
+            {
+
+                ServerManager manager = new ServerManager();
+                Site defaultSite = manager.Sites[site];
+                Boolean siteExist = false;
+                List<Application> foundApp = new List<Application>();
+                foreach (Application appSearch in defaultSite.Applications)
+                {
+                    if (appSearch.Path.Contains("/innovmetric"))
+                    {
+                        siteExist = true;
+                        foundApp.Add(appSearch);
+
+                    }
+                }
+                if (siteExist)
+                {
+                    System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show("Application exist in IIS, Replace application?", "Information", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question, System.Windows.Forms.MessageBoxDefaultButton.Button2, System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        foreach (Application appdel in foundApp)
+                        {
+                            defaultSite.Applications.Remove(appdel);
+                            //manager.CommitChanges();
+                        }
+                        try
+                        {
+                            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(PhysicalPath + @"\innovmetric\");
+
+                            foreach (System.IO.FileInfo file in di.GetFiles())
+                            {
+                                file.Delete();
+                            }
+                            foreach (System.IO.DirectoryInfo dir in di.GetDirectories())
+                            {
+                                dir.Delete(true);
+                            }
+                            //System.IO.Directory.Delete(PhysicalPath + @"\innovmetric\", true);
+                        }
+                        catch (Exception ex)
+                        {
+                            
+
+                        }
+
+                        CreateDirectoryPwv(PhysicalPath + @"\innovmetric\pwv\");
+
+                        //CreateDirectoryPwv(PhysicalPath + @"\innovmetric\rest\");
+                        Application app = defaultSite.Applications.Add("/innovmetric/rest", PhysicalPath + @"\innovmetric\rest");
+                        Application app2 = defaultSite.Applications.Add("/innovmetric", PhysicalPath + @"\innovmetric");
+                        //app.VirtualDirectories.Add("/innovmetric"  , @"d:\rootTest\innovmetric");
+                        manager.CommitChanges();
+                        return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    //CreateDirectoryPwv(PhysicalPath + @"\innovmetric\pwv\");
+
+                    //CreateDirectoryPwv(PhysicalPath + @"\innovmetric\rest\");
+                    Application app = defaultSite.Applications.Add("/innovmetric/rest", PhysicalPath + @"\innovmetric\rest");
+                    Application app2 = defaultSite.Applications.Add("/innovmetric", PhysicalPath + @"\innovmetric");
+                    //app.VirtualDirectories.Add("/innovmetric"  , @"d:\rootTest\innovmetric");
+                    manager.CommitChanges();
+                    return true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+
         }
         public static Site GetSite(ServerManager serverManager, string siteName)
         {
