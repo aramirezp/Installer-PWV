@@ -43,8 +43,8 @@ namespace Installer_PWV
             {
                 case "1.0": lblFramework.Text = FrameWork.foundFWMoreThan45; break;
                 case "0": lblFramework.Text = FrameWork.noFoundFW45; break;
-                default: { lblFramework.Text = "Version " + version; picFramework.Image = Installer_PWV.Properties.Resources.pwv_red; f2 = true; break; }
-
+                case "4.6":{ lblFramework.Text = "Version " + version; picFramework.Image = Installer_PWV.Properties.Resources.pwv_red; f2 = true; break; }
+                default: { lblFramework.Text = @"Need install Framework 4.6"; linkLabel1.Visible = true; break; }
             }
 
             // Detect IIS is installed and show version
@@ -160,6 +160,16 @@ namespace Installer_PWV
             button1.Enabled = true;
             button2.Visible = true;
             button3.Visible = false;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string path;
+            path = System.IO.Path.GetDirectoryName(
+               System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
+
+
+            System.Diagnostics.Process.Start(path + "/FK4.6/NDP46-KB3045560-Web.exe");
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Installer_PWV.Properties {
         /// </summary>
         internal static System.Drawing.Icon favicon {
             get {
-                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                object obj = ResourceManager.GetObject("favicon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

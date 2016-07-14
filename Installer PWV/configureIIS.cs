@@ -82,10 +82,13 @@ namespace Installer_PWV
 
         private void MyMethod() //called on the UI thread
         {
+            string path;
+            path = System.IO.Path.GetDirectoryName(
+               System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\","");
             //iCount = checkedlistbox.selecteditems.count;
             progressBar1.Value = 1;
             progressBar1.Minimum = 1;
-            progressBar1.Maximum = System.IO.Directory.GetFiles(AppContext.BaseDirectory.ToString() + @"\source\", "*", System.IO.SearchOption.AllDirectories).Length;
+            progressBar1.Maximum = System.IO.Directory.GetFiles(path + @"\source\", "*", System.IO.SearchOption.AllDirectories).Length;
             progressBar1.Step = 1;
             button2.Enabled = false;
             var bgw = new BackgroundWorker();
@@ -139,7 +142,11 @@ namespace Installer_PWV
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-             string sourceDir = AppContext.BaseDirectory.ToString() + @"\source\"; //@"d:\Develop\pwv";
+            string path;
+            path = System.IO.Path.GetDirectoryName(
+               System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
+
+            string sourceDir = path + @"\source\"; //@"d:\Develop\pwv";
             string targetDir = lblWindows.Text + @"\innovmetric"; //@"c:\Develop\pwv";
             DirectoryCopy(sourceDir, targetDir, true, ((BackgroundWorker)sender));
             

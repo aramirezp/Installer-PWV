@@ -48,6 +48,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.picWindows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picIIS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picFramework)).BeginInit();
@@ -149,11 +150,12 @@
             // 
             // lblFramework
             // 
+            this.lblFramework.AutoSize = true;
             this.lblFramework.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFramework.ForeColor = System.Drawing.Color.White;
             this.lblFramework.Location = new System.Drawing.Point(154, 246);
             this.lblFramework.Name = "lblFramework";
-            this.lblFramework.Size = new System.Drawing.Size(272, 21);
+            this.lblFramework.Size = new System.Drawing.Size(0, 13);
             this.lblFramework.TabIndex = 13;
             // 
             // label6
@@ -276,12 +278,26 @@
             this.button3.Visible = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.White;
+            this.linkLabel1.Location = new System.Drawing.Point(154, 268);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(107, 13);
+            this.linkLabel1.TabIndex = 23;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Install Framework 5.6";
+            this.linkLabel1.Visible = false;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // detectRequisities
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(54)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(465, 451);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.pictureBox6);
             this.Controls.Add(this.progressBar1);
@@ -340,5 +356,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
